@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  subscriber-mgmt-backend:
+    container_name: subscriber-mgmt-backend
+    image: subscriber-mgmt-backend:latest
+    build: .
+    environment:
+      # Remember to change password until environment variables are set better.
+      DATABASE_URL: "host=subscriber-mgmt-db user=subscribermgmt password=subscribermgmt dbname=subscribermgmtdb sslmode=disable"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - subscriber-mgmt-db
+  subscriber-mgmt-db:
+    image: postgres:17-alpine
+    container_name: subscriber-mgmt-db
+    restart: always
+    environment:
+      POSTGRES_USER: subscribermgmt
+      POSTGRES_PASSWORD: subscribermgmt # Change this!
+      POSTGRES_DB: subscribermgmtdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
