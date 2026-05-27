@@ -2,6 +2,9 @@ package config
 
 import (
 	"fmt"
+
+	"backend/internal/contacts"
+	"backend/internal/addresses"
 	
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,6 +18,21 @@ type DBConfig struct {
 	Password string
 	DBName string
 	SSLMode string
+}
+
+func Automigrate(db *gorm.DB) error {
+	err := db.AutoMigrate(
+		&contacts.Contact{}
+		&addresses.Address{}
+		&addresses.City{}
+		&addresses.State{}
+		&addresses.Country{}
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func NewDatabase(conf DBConfig) (*gorm.DB, error) {

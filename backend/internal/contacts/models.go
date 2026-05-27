@@ -4,11 +4,11 @@ import "gorm.io/gorm"
 
 type Contact struct {
 	gorm.Model
-	FirstName string `json:"first_name"`
-	LastName string `json:"last_name"`
-	Email string `json:"email" gorm:"unique"`
-	Phone string `json:"phone"`
-	Image string `json:"image"`
+	FirstName string
+	LastName string
+	Email string `gorm:"unique"`
+	Phone string `gorm:"unique"`
+	Image string
 }
 
 func (Contact) TableName() string {
